@@ -17,7 +17,14 @@ class ProductsController extends Controller
     }
 
     public function store(Request $request){
-        // creates a product in the databse
+        // the validator
+        $this->validate($request, [
+            'title' => 'required|unique:products|max:255',
+            'description' => 'required',
+            'price' => 'integer',
+            'availability' => 'boolean',
+        ]);
+        // creates a product in the database
         $product = Product::create($request->all());
         return response()->json($product, 201);
     }
